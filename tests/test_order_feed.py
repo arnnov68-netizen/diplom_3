@@ -3,6 +3,7 @@ import allure
 from data.config import BASE_URL
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
+from pages.order_feed_page import OrderFeedPage
 
 
 @allure.epic("UI Тесты")
@@ -31,7 +32,6 @@ class TestOrderFeed:
         with allure.step("Перейти в ленту заказов"):
             main_page.click_order_feed()
 
-        from pages.order_feed_page import OrderFeedPage
         order_feed_page = OrderFeedPage(driver)
 
         with allure.step("Получить начальное значение"):
@@ -45,10 +45,9 @@ class TestOrderFeed:
 
         with allure.step("Вернуться в ленту заказов"):
             main_page.click_order_feed()
-            order_feed_page.wait_for_text_change(
-                order_feed_page.TOTAL_ORDERS_COUNTER,
-                previous_text=str(initial_total),
-                timeout=15,
+            order_feed_page = OrderFeedPage(driver)
+            order_feed_page.wait_for_total_orders_change(
+                previous_value=initial_total, timeout=15,
             )
             new_total = order_feed_page.get_total_orders_count()
             allure.attach(str(new_total), "Новое",
@@ -67,7 +66,6 @@ class TestOrderFeed:
         with allure.step("Перейти в ленту заказов"):
             main_page.click_order_feed()
 
-        from pages.order_feed_page import OrderFeedPage
         order_feed_page = OrderFeedPage(driver)
 
         with allure.step("Получить начальное значение"):
@@ -81,10 +79,9 @@ class TestOrderFeed:
 
         with allure.step("Вернуться в ленту заказов"):
             main_page.click_order_feed()
-            order_feed_page.wait_for_text_change(
-                order_feed_page.TODAY_ORDERS_COUNTER,
-                previous_text=str(initial_today),
-                timeout=15,
+            order_feed_page = OrderFeedPage(driver)
+            order_feed_page.wait_for_today_orders_change(
+                previous_value=initial_today, timeout=15,
             )
             new_today = order_feed_page.get_today_orders_count()
             allure.attach(str(new_today), "Новое",
@@ -108,7 +105,6 @@ class TestOrderFeed:
         with allure.step("Перейти в ленту заказов"):
             main_page.click_order_feed()
 
-        from pages.order_feed_page import OrderFeedPage
         order_feed_page = OrderFeedPage(driver)
 
         with allure.step("Дождаться появления заказа в разделе 'В работе'"):
@@ -127,7 +123,6 @@ class TestOrderFeed:
         with allure.step("Перейти в ленту заказов"):
             main_page.click_order_feed()
 
-        from pages.order_feed_page import OrderFeedPage
         order_feed_page = OrderFeedPage(driver)
 
         with allure.step("Получить начальные значения"):
@@ -140,17 +135,14 @@ class TestOrderFeed:
 
         with allure.step("Вернуться в ленту заказов"):
             main_page.click_order_feed()
+            order_feed_page = OrderFeedPage(driver)
 
         with allure.step("Проверить оба счётчика"):
-            order_feed_page.wait_for_text_change(
-                order_feed_page.TOTAL_ORDERS_COUNTER,
-                previous_text=str(initial_total),
-                timeout=15,
+            order_feed_page.wait_for_total_orders_change(
+                previous_value=initial_total, timeout=15,
             )
-            order_feed_page.wait_for_text_change(
-                order_feed_page.TODAY_ORDERS_COUNTER,
-                previous_text=str(initial_today),
-                timeout=15,
+            order_feed_page.wait_for_today_orders_change(
+                previous_value=initial_today, timeout=15,
             )
 
             new_total = order_feed_page.get_total_orders_count()

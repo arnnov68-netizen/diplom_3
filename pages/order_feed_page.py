@@ -26,6 +26,10 @@ class OrderFeedPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
+    @allure.step("Получить заголовок страницы 'Лента заказов'")
+    def get_title(self):
+        return self.get_text(self.ORDER_FEED_TITLE)
+
     @allure.step("Получить 'Выполнено за всё время'")
     def get_total_orders_count(self):
         element = self.find_element(self.TOTAL_ORDERS_COUNTER)
@@ -37,6 +41,32 @@ class OrderFeedPage(BasePage):
         element = self.find_element(self.TODAY_ORDERS_COUNTER)
         text = element.text.strip().replace(" ", "")
         return int(text) if text.isdigit() else 0
+
+    @allure.step("Дождаться увеличения счётчика 'Выполнено за всё время'")
+    def wait_for_total_orders_change(self, previous_value, timeout=15):
+        """Ждёт, пока счётчик 'за всё время' станет больше previous_value."""
+        self.wait_until(
+            lambda d: self.get_total_orders_count() > previous_value,
+            description=(
+                f"увеличение счётчика 'за всё время' "
+                f"относительно {previous_value}"
+            ),
+            timeout=timeout,
+        )
+        return self
+
+    @allure.step("Дождаться увеличения счётчика 'Выполнено за сегодня'")
+    def wait_for_today_orders_change(self, previous_value, timeout=15):
+        """Ждёт, пока счётчик 'за сегодня' станет больше previous_value."""
+        self.wait_until(
+            lambda d: self.get_today_orders_count() > previous_value,
+            description=(
+                f"увеличение счётчика 'за сегодня' "
+                f"относительно {previous_value}"
+            ),
+            timeout=timeout,
+        )
+        return self
 
     @allure.step("Получить список заказов в работе")
     def get_orders_in_progress(self):

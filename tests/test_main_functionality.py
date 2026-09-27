@@ -2,8 +2,10 @@ import allure
 
 from data.config import BASE_URL
 from helpers.user_helpers import register_user
+from pages.ingredient_modal import IngredientModal
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
+from pages.order_feed_page import OrderFeedPage
 
 
 @allure.epic("UI Тесты")
@@ -23,10 +25,8 @@ class TestMainFunctionality:
         main_page.click_order_feed()
         main_page.click_constructor()
 
-        with allure.step("Проверка, что мы на главной странице"):
-            assert main_page.find_element(main_page.CONSTRUCTOR_BUTTON), \
-                "Кнопка 'Конструктор' не найдена"
-            assert "stellarburgers" in main_page.get_current_url()
+        with allure.step("Проверка, что открыт конструктор"):
+            assert main_page.is_constructor_open(), "Конструктор не открыт"
 
     @allure.story("Навигация")
     @allure.title("Переход на страницу 'Лента Заказов'")
@@ -38,13 +38,12 @@ class TestMainFunctionality:
 
         main_page.click_order_feed()
 
-        from pages.order_feed_page import OrderFeedPage
         order_feed_page = OrderFeedPage(driver)
 
         with allure.step("Проверка, что мы на странице ленты заказов"):
             assert "feed" in order_feed_page.get_current_url(), \
                 "URL не содержит 'feed'"
-            title = order_feed_page.get_text(order_feed_page.ORDER_FEED_TITLE)
+            title = order_feed_page.get_title()
             assert "Лента заказов" in title or "Лента Заказов" in title, \
                 f"Заголовок 'Лента заказов' не найден, получено: {title}"
 
@@ -58,7 +57,9 @@ class TestMainFunctionality:
         main_page = MainPage(driver)
         main_page.open(BASE_URL)
 
-        modal = main_page.click_bun_ingredient()
+        main_page.click_bun_ingredient()
+
+        modal = IngredientModal(driver)
 
         with allure.step("Проверка, что модальное окно открыто"):
             assert modal.is_modal_open(), "Модальное окно не открылось"
@@ -73,7 +74,9 @@ class TestMainFunctionality:
         main_page = MainPage(driver)
         main_page.open(BASE_URL)
 
-        modal = main_page.click_bun_ingredient()
+        main_page.click_bun_ingredient()
+
+        modal = IngredientModal(driver)
 
         with allure.step("Закрыть модальное окно"):
             assert modal.is_modal_open(), "Модальное окно не открылось"
@@ -90,7 +93,9 @@ class TestMainFunctionality:
         main_page = MainPage(driver)
         main_page.open(BASE_URL)
 
-        modal = main_page.click_bun_ingredient()
+        main_page.click_bun_ingredient()
+
+        modal = IngredientModal(driver)
 
         with allure.step("Проверка всех деталей ингредиента"):
             assert modal.get_ingredient_name(), "Название ингредиента не найдено"

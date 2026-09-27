@@ -29,8 +29,7 @@ class LoginPage(BasePage):
     def click_login_button(self):
         self.click_element(self.LOGIN_SUBMIT_BUTTON)
         self.wait_for_url_not_contains("/login")
-        from pages.main_page import MainPage
-        return MainPage(self.driver)
+        return self
 
     @allure.step("Авторизоваться: {email}")
     def login(self, email, password):

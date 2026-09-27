@@ -79,46 +79,39 @@ class MainPage(BasePage):
     def click_order_feed(self):
         self.click_element(self.ORDER_FEED_BUTTON)
         self.wait_for_url_contains("/feed")
-        from pages.order_feed_page import OrderFeedPage
-        return OrderFeedPage(self.driver)
+        return self
 
     @allure.step("Клик на кнопку 'Личный Кабинет'")
     def click_personal_account(self):
         self.click_element(self.PERSONAL_ACCOUNT_BUTTON)
-        from pages.login_page import LoginPage
-        return LoginPage(self.driver)
+        return self
 
     @allure.step("Клик на кнопку 'Войти в аккаунт'")
     def click_login_button(self):
         self.click_element(self.LOGIN_BUTTON)
-        from pages.login_page import LoginPage
-        return LoginPage(self.driver)
+        return self
 
     # ---------- Ингредиенты ----------
 
     @allure.step("Клик на булку")
     def click_bun_ingredient(self):
         self.click_element(self.BUN_INGREDIENT)
-        from pages.ingredient_modal import IngredientModal
-        return IngredientModal(self.driver)
+        return self
 
     @allure.step("Клик на соус")
     def click_sauce_ingredient(self):
         self.click_element(self.SAUCE_INGREDIENT)
-        from pages.ingredient_modal import IngredientModal
-        return IngredientModal(self.driver)
+        return self
 
     @allure.step("Клик на начинку")
     def click_filling_ingredient(self):
         self.click_element(self.FILLING_INGREDIENT)
-        from pages.ingredient_modal import IngredientModal
-        return IngredientModal(self.driver)
+        return self
 
     # ---------- Счётчики ----------
 
     @allure.step("Получить счётчик булки")
     def get_bun_counter(self):
-        """Возвращает число рядом с булкой или 0, если счётчика нет."""
         if not self.is_element_present(self.BUN_COUNTER, timeout=3):
             return 0
         text = self.get_text(self.BUN_COUNTER).strip()
@@ -150,9 +143,7 @@ class MainPage(BasePage):
 
     @allure.step("Получить номер заказа из модального окна")
     def get_order_number(self):
-        """Ждёт появления реального номера заказа (не заглушки 9999)."""
         self.wait_for_visibility(self.ORDER_NUMBER)
-        # Ждём, пока номер перестанет быть заглушкой '9999'
         self.wait_for_text_change(self.ORDER_NUMBER, previous_text="9999")
         return self.get_text(self.ORDER_NUMBER).strip()
 
@@ -173,3 +164,15 @@ class MainPage(BasePage):
         order_number = self.get_order_number()
         self.close_order_modal()
         return order_number
+
+    # ---------- Проверки состояния главной ----------
+
+    @allure.step("Проверить, что открыт конструктор")
+    def is_constructor_open(self):
+        """Конструктор считается открытым, если есть кнопка 'Конструктор'
+        и мы на главной странице (в URL нет /feed и /login).
+        """
+        if not self.is_element_present(self.CONSTRUCTOR_BUTTON, timeout=5):
+            return False
+        url = self.get_current_url()
+        return "stellarburgers" in url and "/feed" not in url and "/login" not in url

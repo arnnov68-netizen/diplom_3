@@ -1,6 +1,7 @@
 import allure
 
 from data.config import BASE_URL
+from pages.ingredient_modal import IngredientModal
 from pages.main_page import MainPage
 
 
@@ -16,7 +17,9 @@ class TestIngredients:
         main_page = MainPage(driver)
         main_page.open(BASE_URL)
 
-        modal = main_page.click_bun_ingredient()
+        main_page.click_bun_ingredient()
+
+        modal = IngredientModal(driver)
 
         with allure.step("Проверка открытия модального окна"):
             assert modal.is_modal_open(), "Модальное окно не открылось"
@@ -39,7 +42,9 @@ class TestIngredients:
         main_page = MainPage(driver)
         main_page.open(BASE_URL)
 
-        modal = main_page.click_sauce_ingredient()
+        main_page.click_sauce_ingredient()
+
+        modal = IngredientModal(driver)
 
         with allure.step("Проверка открытия модального окна"):
             assert modal.is_modal_open(), "Модальное окно не открылось"
@@ -60,7 +65,9 @@ class TestIngredients:
         main_page = MainPage(driver)
         main_page.open(BASE_URL)
 
-        modal = main_page.click_filling_ingredient()
+        main_page.click_filling_ingredient()
+
+        modal = IngredientModal(driver)
 
         with allure.step("Проверка открытия модального окна"):
             assert modal.is_modal_open(), "Модальное окно не открылось"
@@ -81,7 +88,9 @@ class TestIngredients:
         main_page = MainPage(driver)
         main_page.open(BASE_URL)
 
-        modal = main_page.click_bun_ingredient()
+        main_page.click_bun_ingredient()
+
+        modal = IngredientModal(driver)
 
         with allure.step("Проверка, что модальное окно открылось"):
             assert modal.is_modal_open(), "Модальное окно не открылось"
@@ -100,7 +109,9 @@ class TestIngredients:
         main_page = MainPage(driver)
         main_page.open(BASE_URL)
 
-        modal = main_page.click_bun_ingredient()
+        main_page.click_bun_ingredient()
+
+        modal = IngredientModal(driver)
 
         with allure.step("Проверка названия ингредиента"):
             assert modal.get_ingredient_name(), "Название ингредиента не найдено"
