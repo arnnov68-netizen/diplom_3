@@ -12,12 +12,14 @@ class TestOrderFeed:
 
     def _login(self, driver, ui_user):
         """Логинимся и возвращаем MainPage на главной."""
+        user_data = ui_user['user_data']
+
         main_page = MainPage(driver)
         main_page.open(BASE_URL)
         main_page.click_login_button()
 
         login_page = LoginPage(driver)
-        login_page.login(ui_user['email'], ui_user['password'])
+        login_page.login(user_data['email'], user_data['password'])
 
         return MainPage(driver)
 

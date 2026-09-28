@@ -4,6 +4,7 @@ import allure
 import pytest
 from selenium import webdriver
 
+from helpers.api_helpers import delete_user
 from helpers.user_helpers import register_user
 
 
@@ -56,10 +57,19 @@ def driver(request):
 
 @pytest.fixture
 def ui_user():
-    """Готовит зарегистрированного пользователя для UI-тестов.
-    Вся логика генерации и регистрации — в helpers/user_helpers.
+    """Готовит зарегистрированного пользователя для UI-тестов
+    и удаляет его после теста.
     """
-    return register_user()
+    data = register_user()
+
+    yield data
+
+    access = data.get('accessToken')
+    if access:
+        try:
+            delete_user(access)
+        except Exception:
+            pass
 
 
 # ============================================================

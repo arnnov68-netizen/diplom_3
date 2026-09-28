@@ -1,7 +1,6 @@
 import allure
 
 from data.config import BASE_URL
-from helpers.user_helpers import register_user
 from pages.ingredient_modal import IngredientModal
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
@@ -133,9 +132,9 @@ class TestMainFunctionality:
     @allure.title("Создание заказа авторизованным пользователем")
     @allure.description("Проверка создания заказа после авторизации и добавления ингредиентов")
     @allure.severity(allure.severity_level.CRITICAL)
-    def test_create_order(self, driver):
-        with allure.step("Создать тестового пользователя через API"):
-            user_data = register_user()
+    def test_create_order(self, driver, ui_user):
+        with allure.step("Получить данные тестового пользователя"):
+            user_data = ui_user['user_data']
             allure.attach(user_data['email'], name="Email",
                           attachment_type=allure.attachment_type.TEXT)
 

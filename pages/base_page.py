@@ -138,12 +138,6 @@ class BasePage:
         element = self.find_element(locator, timeout)
         return element.text
 
-    @allure.step("Выполнить JavaScript на элементе: {locator}")
-    def execute_script_on_element(self, locator, script, timeout=DEFAULT_TIMEOUT):
-        element = self.find_element(locator, timeout)
-        self.driver.execute_script(script, element)
-        return self
-
     @allure.step("Клик через JavaScript: {locator}")
     def js_click(self, locator, timeout=DEFAULT_TIMEOUT):
         element = WebDriverWait(self.driver, timeout).until(

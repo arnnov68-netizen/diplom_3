@@ -11,7 +11,6 @@ class MainPage(BasePage):
     CONSTRUCTOR_BUTTON = (By.XPATH, "//a[contains(., 'Конструктор')]")
     ORDER_FEED_BUTTON = (By.XPATH, "//a[contains(., 'Лента Заказов')]")
     LOGIN_BUTTON = (By.XPATH, "//button[contains(., 'Войти в аккаунт')]")
-    PERSONAL_ACCOUNT_BUTTON = (By.XPATH, "//a[contains(., 'Личный Кабинет')]")
 
     # ---------- Ингредиенты ----------
     BUN_INGREDIENT = (
@@ -79,11 +78,6 @@ class MainPage(BasePage):
     def click_order_feed(self):
         self.click_element(self.ORDER_FEED_BUTTON)
         self.wait_for_url_contains("/feed")
-        return self
-
-    @allure.step("Клик на кнопку 'Личный Кабинет'")
-    def click_personal_account(self):
-        self.click_element(self.PERSONAL_ACCOUNT_BUTTON)
         return self
 
     @allure.step("Клик на кнопку 'Войти в аккаунт'")

@@ -10,7 +10,6 @@ class LoginPage(BasePage):
     EMAIL_INPUT = (By.XPATH, "//input[@type='text' and @name='name']")
     PASSWORD_INPUT = (By.XPATH, "//input[@type='password']")
     LOGIN_SUBMIT_BUTTON = (By.XPATH, "//button[contains(., 'Войти')]")
-    REGISTER_LINK = (By.XPATH, "//a[contains(., 'Зарегистрироваться')]")
 
     def __init__(self, driver):
         super().__init__(driver)

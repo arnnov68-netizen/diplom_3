@@ -10,9 +10,6 @@ class IngredientModal(BasePage):
     MODAL_CONTAINER = (
         By.XPATH, "//div[contains(@class, 'Modal_modal__container')]"
     )
-    MODAL_OVERLAY = (
-        By.XPATH, "//div[contains(@class, 'Modal_modal_overlay')]"
-    )
     MODAL_CLOSE_BUTTON = (
         By.XPATH,
         "//div[contains(@class, 'Modal_modal__container')]"

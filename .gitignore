@@ -1,11 +1,22 @@
+# Python
 __pycache__/
 *.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Виртуальное окружение
 .venv/
 venv/
 env/
-.pytest_cache/
+
+# Отчёты
+allure-report/
+screenshots/
+
+# IDE
 .idea/
 .vscode/
-*.log
-screenshots/
-allure-report/
+
+# OS
+Thumbs.db
+.DS_Store

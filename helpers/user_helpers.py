@@ -17,7 +17,7 @@ def register_user(user_data=None):
     """Регистрирует пользователя через API.
 
     Использует хелпер create_user из api_helpers (запрос виден в Allure).
-    Возвращает словарь с данными пользователя (email/password/name).
+    Возвращает полный ответ регистрации + user_data (включая accessToken).
     Бросает RuntimeError, если регистрация не удалась.
     """
     if user_data is None:
@@ -36,4 +36,6 @@ def register_user(user_data=None):
             f"status={response.status_code}, body={response.text}"
         )
 
-    return user_data
+    result = response.json()
+    result['user_data'] = user_data
+    return result
